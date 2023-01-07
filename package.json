@@ -1,0 +1,26 @@
+{
+  "name": "hpny2023",
+  "version": "1.0.0",
+  "description": "VanillaJS 로 신년메시지 SPA 구현하기",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aejeong/HPNY2023.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aejeong/HPNY2023/issues"
+  },
+  "homepage": "https://github.com/aejeong/HPNY2023#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.15"
+  }
+}
