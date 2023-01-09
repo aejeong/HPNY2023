@@ -1,30 +1,64 @@
+import {PATH} from './constant.js';
+import Home from './views/home.js'
+import Edit from './views/edit.js';
+import Upload from './views/upload.js'
+import Post from './views/post.js'
+
 const router = async () => {
     const routes = [
         {
-            path : '/', view: ()=> { console.log('Home') }
+            path : PATH.HOME, view: ()=> { return new Home().getHtml(); }
         },
         {
-            path : '/upload', view: ()=> { console.log('upload') }
+            path : PATH.UPLOAD, view: ()=> { return new Upload().getHtml(); }
         },
         {
-            path : '/post', view: ()=> { console.log('post') }
+            path : PATH.POST, view: ()=> { return new Post().getHtml(); }
         },
         {
-            path : '/edit', view: ()=> { console.log('haha') }
+            path : PATH.EDIT, view: () => { return new Edit().getHtml(); }
+        },
+        {
+            path: PATH.ERROR, view: () => {}
         }
     ];
 
 
-    const pageInfo = routes.map(route=>{
+    const pageInfo = routes.map(route=> {
         return {
            route,
-           isMath: route.path === location.pathname
+           isMatch: route.path === location.pathname
         }
     })
 
-    console.log(pageInfo);
+    let pageMatch = pageInfo.find(match => match.isMatch);
+
+    if(!pageMatch){
+        pageMatch = {
+            route: routes[routes.length - 1],
+            isMatch: true
+        }
+    }
+
+    console.log(document.getElementById('root'));
+    document.getElementById('root').innerHTML = await pageMatch.route.view();
+    
 }
 
-document.addEventListener('DOMContentLoaded',()=>{
+const navigateTo = url => {
+    history.pushState(null,null,url);
     router();
+}
+
+window.addEventListener('popstate',router);
+
+document.addEventListener('DOMContentLoaded',()=>{
+    document.addEventListener('click', (e)=> {
+        console.log(e.target.matches('[data-link]'));
+            if(e.target.matches('[data-link]')){
+                e.preventDefault();
+                navigateTo(e.target.href);
+            }
+    })
+  router();
 })
