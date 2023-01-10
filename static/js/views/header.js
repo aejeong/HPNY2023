@@ -5,6 +5,13 @@ export default class Header{
         document.title = title;
     }
 
+    // setEventListener(ids){
+    //     console.log(ids,'---ids')
+    //     return ids.forEach(type => {
+    //         document.querySelector(type.element).addEventListener(type.eventType, callback)
+    //     });
+    // }
+
     getHeaderHtml(btnElement){
         return `
         <header>

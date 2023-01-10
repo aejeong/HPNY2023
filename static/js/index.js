@@ -7,19 +7,19 @@ import Post from './views/post.js'
 const router = async () => {
     const routes = [
         {
-            path : PATH.HOME, view: ()=> { return new Home().getHtml(); }
+            path : PATH.HOME, view: Home
         },
         {
-            path : PATH.UPLOAD, view: ()=> { return new Upload().getHtml(); }
+            path : PATH.UPLOAD, view: Upload
         },
         {
-            path : PATH.POST, view: ()=> { return new Post().getHtml(); }
+            path : PATH.POST, view: Post
         },
         {
-            path : PATH.EDIT, view: () => { return new Edit().getHtml(); }
+            path : PATH.EDIT, view: Edit 
         },
         {
-            path: PATH.ERROR, view: () => {}
+            path: PATH.ERROR, view: null
         }
     ];
 
@@ -27,11 +27,12 @@ const router = async () => {
     const pageInfo = routes.map(route=> {
         return {
            route,
-           isMatch: route.path === location.pathname
+           isMatch: replaceId(route.path) === location.pathname
         }
     })
 
     let pageMatch = pageInfo.find(match => match.isMatch);
+
 
     if(!pageMatch){
         pageMatch = {
@@ -39,10 +40,22 @@ const router = async () => {
             isMatch: true
         }
     }
-
-    console.log(document.getElementById('root'));
-    document.getElementById('root').innerHTML = await pageMatch.route.view();
+    console.log(pageInfo,'---pageInfo')
+    const view = new pageMatch.route.view();
+    document.getElementById('root').innerHTML = await view.getHtml();
+    view.setElementListener();
     
+}
+
+const replaceId = (path) => {
+    const hasIdRegx = path.match(/\/\:id/);
+    
+    const idNumReg = /\/\d+/;
+   const replacedPath =  path.replace(new RegExp(/\/\:id/), window.location.pathname.match(idNumReg));
+    // console.log(hasIdRegx,'---hasIdRegx???') 
+//    console.log(replacedPath,'---replacedPath');
+    // console.log(path,'---path');
+  return hasIdRegx && hasIdRegx.length ? replacedPath : path;
 }
 
 const navigateTo = url => {
@@ -52,7 +65,7 @@ const navigateTo = url => {
 
 window.addEventListener('popstate',router);
 
-document.addEventListener('DOMContentLoaded',()=>{
+document.addEventListener('DOMContentLoaded',() => {
     document.addEventListener('click', (e)=> {
         console.log(e.target.matches('[data-link]'));
             if(e.target.matches('[data-link]')){
@@ -62,3 +75,4 @@ document.addEventListener('DOMContentLoaded',()=>{
     })
   router();
 })
+

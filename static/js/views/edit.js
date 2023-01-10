@@ -1,4 +1,5 @@
 import Header from './header.js';
+import api from '../api.js';
 
 export default class Edit extends Header{
     constructor(){
@@ -6,8 +7,16 @@ export default class Edit extends Header{
         this.setDocsTitle('edit post');
     }
 
+    // async getData(){
+    //     const idNumReg = /\/\d+/;
+    //     const postId = window.location.pathname.match(idNumReg)[0];
+    //     return await api.updatePost(postId).then(item=> item);
+    // }
+
     async getHtml(){
         const hasBackBtn = true;
+        // const datas = await this.getData();
+        // console.log(datas,'---datas')
 
         return `
         ${ this.getHeaderHtml(hasBackBtn) }
