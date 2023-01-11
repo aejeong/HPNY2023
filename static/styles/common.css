@@ -254,3 +254,22 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#EF566A", en
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.error-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+}
+
+.error-box .error-text{
+    font-size: 60px;
+}
+
+.error-box .error-text strong{
+    display: block;
+    margin-bottom: 16px;
+    font-weight: 700;
+}

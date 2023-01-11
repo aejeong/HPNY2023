@@ -3,6 +3,7 @@ import Home from './views/home.js'
 import Edit from './views/edit.js';
 import Upload from './views/upload.js'
 import Post from './views/post.js'
+import Error from './views/error.js'
 
 const router = async () => {
     const routes = [
@@ -19,7 +20,7 @@ const router = async () => {
             path : PATH.EDIT, view: Edit 
         },
         {
-            path: PATH.ERROR, view: null
+            path: PATH.ERROR, view: Error
         }
     ];
 
@@ -43,7 +44,7 @@ const router = async () => {
     console.log(pageInfo,'---pageInfo')
     const view = new pageMatch.route.view();
     document.getElementById('root').innerHTML = await view.getHtml();
-    view.setElementListener();
+    view.setElementListener && view.setElementListener();
     
 }
 
