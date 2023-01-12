@@ -1,8 +1,9 @@
-import Header from './header.js';
+import Common from './common.js';
+import Header from './component/header.js'
 import api from '../api.js';
 import {navigateTo} from '../routes.js'
 
-export default class Edit extends Header{
+export default class Edit extends Common{
     constructor(){
         super();
         this.setDocsTitle('edit post');
@@ -60,7 +61,7 @@ export default class Edit extends Header{
         const hasBackBtn = true;
         const {post} = await this.getData();
         return `
-        ${ this.getHeaderHtml(hasBackBtn) }
+        ${new Header().getHeaderHtml(hasBackBtn)}
         <div class="container" id="editContainer">
             <div class="edit-img-box">
                 <img class="edit-img" src="${post.image}" alt="${post.title}"/>

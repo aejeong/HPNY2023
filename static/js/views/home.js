@@ -1,7 +1,8 @@
-import Header from './header.js';
+import Common from './common.js';
+import Header from './component/header.js'
 import api from '../api.js';
 
-export default class Home extends Header{
+export default class Home extends Common{
     constructor(){
         super();
         this.setDocsTitle('🎉 HPNY 2023');
@@ -16,8 +17,9 @@ export default class Home extends Header{
         const hasBackBtn = false;
         const posts = await this.getData();
 
+        // ${ this.getHeaderHtml(hasBackBtn) }
         return`
-        ${ this.getHeaderHtml(hasBackBtn) }
+        ${new Header().getHeaderHtml(hasBackBtn)}
         <div class="btn-box create-btn">
          <a class="btn-primary " href="/upload" data-link>새 글 작성하기</a>
         </div>

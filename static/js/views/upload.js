@@ -1,8 +1,9 @@
-import Header from './header.js';
+import Common from './common.js';
+import Header from './component/header.js'
 import api from '../api.js'
 import { navigateTo } from '../routes.js';
 
-export default class Upload extends Header {
+export default class Upload extends Common {
     constructor(){
         super();
         this.setDocsTitle('upload post');
@@ -69,7 +70,7 @@ export default class Upload extends Header {
         const hasBackBtn = true;
 
         return `
-        ${ this.getHeaderHtml(hasBackBtn) }
+        ${new Header().getHeaderHtml(hasBackBtn)}
         <div class="container" id="uploadContainer">
         <button class="btn-nutral-line" type="button" id="uploadImage" data-input="image">랜덤 이미지 추가하기</button>
             <div class="input-box">

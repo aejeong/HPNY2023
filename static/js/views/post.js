@@ -1,8 +1,9 @@
-import Header from './header.js';
+import Common from './common.js';
+import Header from './component/header.js'
 import api from '../api.js';
 
 
-export default class Post extends Header {
+export default class Post extends Common {
     constructor() {
         super();
         this.setDocsTitle('Post');
@@ -115,7 +116,7 @@ export default class Post extends Header {
         const {post, comments} = await this.getData();
         
         return `
-        ${ this.getHeaderHtml(hasBackBtn) }
+        ${new Header().getHeaderHtml(hasBackBtn)}
         <div class="container">
             <div class="post-box">
                 <div class="edit-img-box">

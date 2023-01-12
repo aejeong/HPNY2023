@@ -1,15 +1,7 @@
 export default class Header{
     constructor(){}
 
-    setDocsTitle(title){
-        document.title = title;
-    }
-
-    scrollDown () {
-        window.scrollTo(0,document.body.scrollHeight)
-    }
-    
-
+ 
     getHeaderHtml(btnElement){
         return `
         <header>
