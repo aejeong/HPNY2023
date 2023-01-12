@@ -11,6 +11,7 @@ export default class Home extends Header{
         return await api.getHomeData().then(item=> item);
    }
     
+   // href="/post/${item.postId}"
     async getHtml(){
         const hasBackBtn = false;
         const posts = await this.getData();
@@ -23,17 +24,19 @@ export default class Home extends Header{
         <ul class="container">
        ${posts.map(item => {
         return `<li class="card-item">
-        <a href="/post/${item.postId}" data-link>
-            <div class="card-item-img">
-                <img class="item-img" src="${item.image}" alt="${item.title}"/>
-            </div>
-            <div class="card-item-info">
-                <span class="card-item-title text-overflow">${item.title}</span>
-                <p class="card-item-desc text-overflow">${item.content}</p>
-            </div>
+        <a  
+            href="/post/${item.postId}"
+            data-link="/post/${item.postId}">
+        <div class="card-item-img">
+        <img class="item-img" src="${item.image}" alt="${item.title}"/>
+        </div>
+        <div class="card-item-info">
+        <span class="card-item-title text-overflow">${item.title}</span>
+        <p class="card-item-desc text-overflow">${item.content}</p>
+        </div>
         </a>
         </li>`
     }).join('')}
-        </ul>`;
-    }
+    </ul>`;
+}
 }

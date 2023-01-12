@@ -9,21 +9,7 @@ export default class Post extends Header {
 
         const idNumReg = /\/\d+/;
         this.postId = window.location.pathname.match(idNumReg)[0];
-
-    }
-
-    async getData(){
-        // const idNumReg = /\/\d+/;
-        // const postId = window.location.pathname.match(idNumReg)[0];
-        return await api.getCardDetailData(this.postId).then(item => item);
-    }
-
-    async deletePostHanlder(){
-        return await api.deletePost(this.postId).then(res=> window.location.href = '/');
-    }
-
-    setElementListener(){
-        const idList = [{
+        this.idList = [{
             element: '#commentInput',
             eventType : 'keypress',
             handler : this.commentInputHandler.bind(this)
@@ -44,16 +30,28 @@ export default class Post extends Header {
             handler : this.deletePostHanlder.bind(this)
         }
     ];
-      
-        idList.forEach(list=>{
+    }
+
+    async getData(){
+        // const idNumReg = /\/\d+/;
+        // const postId = window.location.pathname.match(idNumReg)[0];
+        return await api.getCardDetailData(this.postId).then(item => item);
+    }
+
+    async deletePostHanlder(){
+        return await api.deletePost(this.postId).then(res=> window.location.href = '/');
+    }
+
+    setElementListener(){
+        this.idList.forEach(list=>{
             document.querySelector(list.element).addEventListener(list.eventType, list.handler)
         })
     }
 
+ 
+
     async removeCommentHandler(e){
         if(e.target.dataset.commentId){
-            console.dir(e.target.dataset.commentId,'---e');
-
             await api.deleteComment(e.target.dataset.commentId).then(res=> {
                 this.updateComment();
             });
@@ -133,7 +131,7 @@ export default class Post extends Header {
                 </div>
 
                 <div class="action-btn-group">
-                     <a class="btn-nutral-line" href="/edit/${post.postId}" data-link>✏️  수정하기</a>
+                     <a class="btn-nutral-line" href="/edit/${post.postId}" data-link="/edit/${post.postId}">✏️  수정하기</a>
                      <button class="btn-nutral-solid" type="button" id="removePost">🗑️ 삭제하기</button>
                 </div>
             </div>
