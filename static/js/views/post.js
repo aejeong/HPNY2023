@@ -1,4 +1,5 @@
 import Common from './common.js';
+import { navigateTo } from '../routes.js'
 import Header from './component/header.js'
 import api from '../api.js';
 
@@ -40,7 +41,7 @@ export default class Post extends Common {
     }
 
     async deletePostHanlder(){
-        return await api.deletePost(this.postId).then(res=> window.location.href = '/');
+        return await api.deletePost(this.postId).then(res=> navigateTo(null, '/'));
     }
 
     setElementListener(){

@@ -9,7 +9,7 @@ export default class Error {
                     <strong>Oooops!</strong> something wrong.<br/>
                     please try later again.
                 </p>
-                <a class="btn-nutral-line" href="/">Try to go to main page <i class="fa-solid fa-refresh"></i></a>
+                <a class="btn-nutral-line" href="/" data-link="/">Try to go to main page <i class="fa-solid fa-refresh"></i></a>
             </div>
         `;
     }
