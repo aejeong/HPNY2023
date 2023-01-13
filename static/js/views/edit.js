@@ -50,29 +50,30 @@ export default class Edit extends Common{
     }
 
     async updatePostHandler(){
-        await api.updatePost(this.postId, this.post).then(res=> console.log(res,'---update'));
+        await api.updatePost(this.postId, this.post).then(({data}) => navigateTo(null,`/post/${data.post.postId}`));
     }
 
     async getData(){
-        return await api.getCardDetailData(this.postId).then(item=> item);
+        return await api.getCardDetailData(this.postId).then(item=> item.post);
     }
 
     async getHtml(){
         const hasBackBtn = true;
-        const {post} = await this.getData();
+        this.post = await this.getData();
+
         return `
         ${new Header().getHeaderHtml(hasBackBtn)}
         <div class="container" id="editContainer">
             <div class="edit-img-box">
-                <img class="edit-img" src="${post.image}" alt="${post.title}"/>
+                <img class="edit-img" src="${this.post.image}" alt="${this.post.title}"/>
             </div>
             <div class="input-box">
                 <h2 class="post-title">제목</h2>
-                <input class="input-primary" type="text" max-length="50"  placeholder="제목을 작성해주세요" value="${post.title}" data-input="title"/>
+                <input class="input-primary" type="text" max-length="50"  placeholder="제목을 작성해주세요" value="${this.post.title}" data-input="title"/>
             </div>
             <div class="input-box">
                 <h2 class="post-title">내용</h2>
-                <textarea class="input-primary textarea" rows="5" max-length="500" placeholder="내용을 작성해주세요" data-input="content">${post.content}</textarea>
+                <textarea class="input-primary textarea" rows="5" max-length="500" placeholder="내용을 작성해주세요" data-input="content">${this.post.content}</textarea>
             </div>
 
         <button class="btn-secondary" type="button" id="editBtn">글 수정하기</button>

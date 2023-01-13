@@ -24,7 +24,7 @@ const datas = {
         return await axios.post(BASE.URL + '/post', param).then(res => res.data)
     },
     updatePost: async (id,param) => {
-        return await axios.patch(BASE.URL+'/post/'+id, param).then(res=> res.data);
+        return await axios.patch(BASE.URL+'/post'+id, param).then(res=> res.data);
     },
     deletePost: async (id) => {
         return await axios.delete(BASE.URL + '/post' + id).then(res => console.log(res));
