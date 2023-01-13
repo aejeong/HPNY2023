@@ -5,7 +5,18 @@ import Upload from './views/upload.js'
 import Post from './views/post.js'
 import Error from './views/error.js'
 
-export const router = async () => {
+export const render = async () => {
+
+    const page = pageInit();
+    const view = new page.route.view();
+    
+    document.getElementById('root').innerHTML = await view.getHtml();
+    if(document.getElementById('root').children.length){
+        view.setElementListener && view.setElementListener();
+    }
+}
+
+const pageInit = () => {
     const routes = [
         {
             path : PATH.HOME, view: Home
@@ -41,16 +52,12 @@ export const router = async () => {
         }
     }
 
-    const view = new pageMatch.route.view();
-    document.getElementById('root').innerHTML = await view.getHtml();
-    if(document.getElementById('root').children.length){
-        view.setElementListener && view.setElementListener();
-    }
+    return pageMatch;
 }
 
 export const navigateTo = (data, url) => {
     history.pushState(data,null,url);
-    router();
+    render();
 }
 
  const replaceId = (path) => {

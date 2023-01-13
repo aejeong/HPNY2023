@@ -245,6 +245,37 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#EF566A", en
     resize: none;
 }
 
+/*
+    modal
+*/
+
+.modal-container{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    max-width: 540px;
+    width: calc(100% - 40px);
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0px 0px 6px 1px rgb(150 150 150 / 50%);
+}
+
+.modal-container .modal-content{
+    padding:10px 0 30px;
+}
+
+.modal-container .modal-btn-group{
+    text-align: right;
+}
+
+.modal-container .modal-btn-group [type='button']{
+    max-width: 60px;
+    font-size: 14px;
+    padding:8px 0;
+}
+
 
 .blind{
     position: absolute;

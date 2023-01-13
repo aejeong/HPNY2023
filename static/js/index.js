@@ -1,6 +1,6 @@
-import {router, navigateTo,} from './routes.js';
+import {render, navigateTo,} from './routes.js';
 
-window.addEventListener('popstate',router);
+window.addEventListener('popstate',render);
 
 document.addEventListener('DOMContentLoaded',() => {
     document.addEventListener('click', (e)=> {
@@ -9,6 +9,6 @@ document.addEventListener('DOMContentLoaded',() => {
                 navigateTo(e.target.dataset.link, e.target.dataset.link || e.target.href);
             }
     },true)
-    router();
+    render();
 })
 
