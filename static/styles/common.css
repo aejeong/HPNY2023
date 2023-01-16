@@ -230,13 +230,18 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#EF566A", en
 }
 
 .input-box .post-title{
-    margin-bottom: 10px;
+    margin-bottom: 16px;
 }
 
 .post-title{
     color: #000;
     font-size: 24px;
     font-weight: 700;
+}
+
+.post-contents{
+    white-space: pre-wrap;
+    word-break: break-word;
 }
 
 .input-primary{
@@ -257,7 +262,7 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#EF566A", en
 */
 
 .modal-container{
-    position: fixed;
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
@@ -266,7 +271,7 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#EF566A", en
     background-color: #fff;
     border-radius: 8px;
     padding: 16px;
-    box-shadow: 0px 0px 6px 1px rgb(150 150 150 / 50%);
+    box-shadow: 0px 0px 6px 1px rgb(58 58 58 / 50%);
 }
 
 .modal-container .modal-content{
@@ -281,6 +286,16 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#EF566A", en
     max-width: 60px;
     font-size: 14px;
     padding:8px 0;
+    margin-left: 10px;
+}
+
+.modal-dimmed{
+    background: #0000004f;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 
@@ -322,3 +337,7 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#EF566A", en
     max-width: 640px;
     width: calc(100% - 40px);
 }
+
+
+
+

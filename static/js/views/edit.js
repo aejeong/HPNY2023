@@ -13,6 +13,7 @@ export default class Edit extends Common{
            return navigateTo(null, `/`);
         }
 
+
         this.idList = [
             {
                 element: '#editContainer',
@@ -24,8 +25,7 @@ export default class Edit extends Common{
             handler : this.updatePostHandler.bind(this)
         }]
 
-        const idNumReg = /\/\d+/;
-        this.postId = window.location.pathname.match(idNumReg)[0];
+        this.postId = this.getPostId();
 
         this.post = {}
     }
@@ -54,7 +54,7 @@ export default class Edit extends Common{
     }
 
     async getData(){
-        return await api.getCardDetailData(this.postId).then(item=> item.post);
+        return await api.getCardDetailData(this.postId).then((item)=> item.post);
     }
 
     async getHtml(){

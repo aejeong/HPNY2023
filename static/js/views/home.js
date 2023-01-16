@@ -9,7 +9,9 @@ export default class Home extends Common{
     }
 
      async getData(){
-        return await api.getHomeData().then(item=> item);
+        return await api.getHomeData().then(item=> item)
+        .catch(error => {
+        });
    }
     
    // href="/post/${item.postId}"

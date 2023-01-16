@@ -8,4 +8,9 @@ export default class Common{
     scrollDown () {
         window.scrollTo(0,document.body.scrollHeight)
     }
+
+    getPostId(){
+        const idNumReg = /\/\d+/;
+        return window.location.pathname.match(idNumReg)[0];
+    }
 }

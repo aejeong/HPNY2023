@@ -11,3 +11,8 @@ export const PATH = {
     EDIT: '/edit/:id',
     ERROR: '/404'
 };
+
+export const MODAL_TYPE = {
+    ALERT : 'alert',
+    CONFIRM : 'confirm'
+}

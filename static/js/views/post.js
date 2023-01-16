@@ -1,16 +1,18 @@
 import Common from './common.js';
-import { navigateTo } from '../routes.js'
-import Header from './component/header.js'
+import { navigateTo } from '../routes.js';
+import Header from './component/header.js';
+import Modal from './component/modal.js';
 import api from '../api.js';
+import { MODAL_TYPE } from "../constant.js"; 
 
 
 export default class Post extends Common {
     constructor() {
         super();
         this.setDocsTitle('Post');
+        this.modal = new Modal();
 
-        const idNumReg = /\/\d+/;
-        this.postId = window.location.pathname.match(idNumReg)[0];
+        this.postId = this.getPostId();
         this.idList = [{
             element: '#commentInput',
             eventType : 'keypress',
@@ -35,13 +37,19 @@ export default class Post extends Common {
     }
 
     async getData(){
-        // const idNumReg = /\/\d+/;
-        // const postId = window.location.pathname.match(idNumReg)[0];
         return await api.getCardDetailData(this.postId).then(item => item);
     }
 
-    async deletePostHanlder(){
-        return await api.deletePost(this.postId).then(res=> navigateTo(null, '/'));
+    deletePostHanlder(){
+        this.modal.openModal({
+            message: '정말 삭제하시겠습니까?',
+            type: MODAL_TYPE.CONFIRM
+        }, async (modalResponse) => {
+           if(modalResponse){
+               return await api.deletePost(this.postId).then(res=> navigateTo(null, '/'));
+           }
+        });
+
     }
 
     setElementListener(){
@@ -64,7 +72,7 @@ export default class Post extends Common {
         if(e.target.value === ''){
             return;
         }
-        const { code , keyCode} = e;
+        const { code , keyCode } = e;
 
         if(code === 'Enter' || keyCode === 13){
          this.addComment(e.target.value);
@@ -86,7 +94,7 @@ export default class Post extends Common {
        await api.createComment(this.postId, {content}).then(res=> {
             this.updateComment();
     }).catch(err=> console.log('err'))
-}
+    }
 
     async updateComment(){
         const commentBoxEle = document.querySelector('.comment-list-box');
@@ -129,7 +137,7 @@ export default class Post extends Common {
                 </div>
                 <div class="input-box">
                     <h2 class="post-title">내용</h2>
-                    <p class="post-contents">${post.content}~~</p>
+                    <pre class="post-contents">${post.content}~~</pre>
                 </div>
 
                 <div class="action-btn-group">
