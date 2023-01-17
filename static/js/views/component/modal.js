@@ -3,38 +3,41 @@ import { MODAL_TYPE } from "../../constant.js";
 
 export default class Modal{
     constructor(){
+        this.modalEle = null;
         this.modalType = {
             message: '',
             type: MODAL_TYPE.CONFIRM || MODAL_TYPE.ALERT
             }
         }
 
-    openModal({message , type} ,callback){
-        this.modalType = {
-            message,
-            type
-        }
+     openModal({message , type} ,callback){
+            this.modalType = {
+                message,
+                type
+            }
 
-        this.render();
 
-        
+        this.renderModal();
+
+
         const confirmBtn = document.querySelector('.confirm-btn');
         const closeBtn = document.querySelector('.close-btn');
         
-        confirmBtn.addEventListener('click', () => {
+        confirmBtn && confirmBtn.addEventListener('click',  () => {
+              callback(true);
             this.modalEle.remove();
+        });
+        closeBtn && closeBtn.addEventListener('click',  () => {
+              callback(false);
+            this.modalEle.remove();
+        });
 
-            callback(true);
-        });
-        closeBtn.addEventListener('click', () => {
-            this.modalEle.remove();
-            callback(false);
-        });
     }
 
-    render(){
-         this.modalEle = this.createModalContainer();
-
+    renderModal(){
+        
+        this.modalEle = this.createModalContainer();
+        
         document.getElementById('root').insertAdjacentElement('beforeend',this.modalEle);
     }
     
@@ -56,18 +59,18 @@ export default class Modal{
 
     createModalBtn(ele){
     
-        const closeButton = document.createElement('button');
-        closeButton.setAttribute('type','button');
-        closeButton.classList.add('btn-nutral-line','close-btn');
-        closeButton.innerText = "닫기";
+        const confirmBtn = document.createElement('button');
+        confirmBtn.setAttribute('type','button');
+        confirmBtn.classList.add('btn-nutral-line','confirm-btn');
+        confirmBtn.innerText = '확인';
 
-        let confirmBtn;
+        let closeButton;
 
         if(this.modalType.type === MODAL_TYPE.CONFIRM){
-            confirmBtn = document.createElement('button');
-            confirmBtn.setAttribute('type','button');
-            confirmBtn.classList.add('btn-nutral-line','confirm-btn');
-            confirmBtn.innerText = '확인';
+            closeButton = document.createElement('button');
+            closeButton.setAttribute('type','button');
+            closeButton.classList.add('btn-nutral-line','close-btn');
+            closeButton.innerText = "닫기";
         }
 
         const btnGroupEle = document.createElement('div');
@@ -76,7 +79,7 @@ export default class Modal{
         if(this.modalType.type === MODAL_TYPE.CONFIRM){
             btnGroupEle.append(confirmBtn, closeButton)
         }else{
-            btnGroupEle.append(closeButton)
+            btnGroupEle.append(confirmBtn)
         }
 
         return btnGroupEle

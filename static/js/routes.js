@@ -1,14 +1,10 @@
 import {PATH} from './constant.js';
-import Home from './views/home.js'
-import Edit from './views/edit.js';
-import Upload from './views/upload.js'
-import Post from './views/post.js'
-import Error from './views/error.js'
 
 export const render = async () => {
     const page = pageInit();
-    const view = new page.route.view();
-    
+    const load = await import(page.loadPath);
+    const view = new load.default();
+
     document.getElementById('root').innerHTML = await view.getHtml();
 
     if(document.getElementById('root').children.length){
@@ -25,44 +21,48 @@ const pageInit = () => {
        return hasIdRegx && hasIdRegx.length ? replacedPath : path;
     }
 
-    const matched = Object.keys(routes).find(key =>  replaceId(key) === location.pathname);
-
-    const pageInfo = {
-        route: matched ? routes[matched] : routes[PATH.ERROR],
-        isMatch: true
-    }
-
-    return pageInfo;
+    const matchedUrl = Object.keys(routes).find(key =>  replaceId(key) === location.pathname);
+   
+    return matchedUrl ? routes[matchedUrl] : routes[PATH.ERROR]
 }
 
  const routes = {
     [PATH.HOME]: {
         path: PATH.HOME,
-        view: Home,
+        loadPath: './views/home.js',
     },
     [PATH.UPLOAD]: {
         path : PATH.UPLOAD, 
-        view: Upload,
+        loadPath: './views/upload.js',
     },
     [PATH.POST]: {
         path : PATH.POST,
-         view: Post},
+        loadPath: './views/post.js'},
     [PATH.EDIT]:{ 
         path : PATH.EDIT,
-         view: Edit 
+        loadPath: './views/edit.js' 
     },
     [PATH.ERROR]:{
         path:  PATH.ERROR,
-         view: Error
+        loadPath: './views/error.js'
         }
 }
 
-const navigateTo = (data, url) => {
-    history.pushState(data,null,url);
+const navigate = (url) => {
+    history.pushState(null, null, url);
+    render();
+}
+
+const navigateTo = (data = null,unused = null, url) => {
+    history.pushState(data,unused,url);
+}
+
+const navigateRoute = (data = null, url) => {
+    navigateTo(data,null,url);
     render();
 }
 
 
-export  {navigateTo, routes}
+export  {navigateTo,navigateRoute,navigate, routes}
 
 

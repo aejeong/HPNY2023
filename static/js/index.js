@@ -1,4 +1,4 @@
-import {render, navigateTo} from './routes.js';
+import {render, navigateTo, navigateRoute} from './routes.js';
 
 const domContentLoadedHandler = () => {
     render();
@@ -12,9 +12,10 @@ const setEventListerner = () => {
 
 const documentHandler = (e) => {
     const {dataset: {link}, href} = e.target;
+
     if(e.target.matches('[data-link]')){
         e.preventDefault();
-        navigateTo(link, link || href);
+        navigateRoute(link, link || href);
     }
 }
 

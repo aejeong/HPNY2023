@@ -1,4 +1,5 @@
-import { BASE } from './constant.js';
+import { BASE, PATH } from './constant.js';
+import { navigateTo,navigate } from './routes.js';
 
 const datas = {
 
@@ -7,35 +8,33 @@ const datas = {
             params: {
                 client_id: BASE.API_KEY
             }
-        }).then(res => res.data)
+        }).then(({data}) => data);
     },
     getHomeData: async () => {
-        return await axios.get(BASE.URL + '/posts').then(res => res.data).then(res => res.data.posts).catch(() => {
-            window.location.href = '/404';
-        }
-        );
+        return await axios.get(BASE.URL + '/posts').then(({data: {data : posts}}) => posts);
     },
     getCardDetailData: async (id) => {
-        return await axios.get(BASE.URL + '/post' + id).then(res => res.data).then(res => res.data).catch((err) => {
-            window.location.href = '/404';
+        return await axios.get(BASE.URL + '/post' + id).then(({data: {data}}) => data)
+        .catch((err) => {
+            navigate(PATH.ERROR);
         });
     },
     createPost: async (param) => {
-        return await axios.post(BASE.URL + '/post', param).then(res => res.data)
+        return await axios.post(BASE.URL + '/post', param).then(({data}) => data);
     },
     updatePost: async (id,param) => {
-        return await axios.patch(BASE.URL+'/post'+id, param).then(res=> res.data);
+        return await axios.patch(BASE.URL+'/post'+id, param).then(({data: {data}})=> data)
     },
     deletePost: async (id) => {
-        return await axios.delete(BASE.URL + '/post' + id).then(res => console.log(res));
+        return await axios.delete(BASE.URL + '/post' + id).then(res => res);
     },
     createComment: async (id, content) => {
-        return await axios.post(BASE.URL + '/comment' + id, content).then(res => res.data).catch(() => {
-            window.location.href = '/404';
-        });
+        return await axios.post(BASE.URL + '/comment' + id, content).then(({data}) => data).catch((err) => {
+            navigate(PATH.ERROR);
+        })
     },
     deleteComment: async (id) => {
-        return await axios.delete(BASE.URL + '/comment/' + id).then(res => console.log(res));
+        return await axios.delete(BASE.URL + '/comment/' + id)
     }
 }
 

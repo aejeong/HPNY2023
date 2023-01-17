@@ -1,5 +1,5 @@
 import Common from './common.js';
-import { navigateTo } from '../routes.js';
+import { navigate } from '../routes.js';
 import Header from './component/header.js';
 import Modal from './component/modal.js';
 import api from '../api.js';
@@ -37,7 +37,7 @@ export default class Post extends Common {
     }
 
     async getData(){
-        return await api.getCardDetailData(this.postId).then(item => item);
+        return await api.getCardDetailData(this.postId).then(item => item)
     }
 
     deletePostHanlder(){
@@ -46,10 +46,15 @@ export default class Post extends Common {
             type: MODAL_TYPE.CONFIRM
         }, async (modalResponse) => {
            if(modalResponse){
-               return await api.deletePost(this.postId).then(res=> navigateTo(null, '/'));
+               return await api.deletePost(this.postId).then(res=> navigate('/'))
+               .catch((res) => {
+                return this.modal.openModal({
+                    message: res.message,
+                    type: MODAL_TYPE.ALERT
+                }, (modalResponse) => {})
+            })
            }
         });
-
     }
 
     setElementListener(){
@@ -62,9 +67,23 @@ export default class Post extends Common {
 
     async removeCommentHandler(e){
         if(e.target.dataset.commentId){
-            await api.deleteComment(e.target.dataset.commentId).then(res=> {
-                this.updateComment();
+            this.modal.openModal({
+                message: '댓글을 삭제하시겠습니까?',
+                type: MODAL_TYPE.CONFIRM
+            }, async (modalResponse) => {
+               if(modalResponse){
+                   return await api.deleteComment(e.target.dataset.commentId
+                   ).then(res=> {
+                    this.updateComment();
+                }).catch((err) => {
+                    return this.modal.openModal({
+                        message: err.message + `<br> please try later`,
+                        type: MODAL_TYPE.ALERT
+                    }, () => {})
+                });
+               }
             });
+          
         }
     }
 
@@ -86,14 +105,13 @@ export default class Post extends Common {
             return;
         }
          this.addComment(commentInput.value);
-         e.target.value = '';
+         commentInput.value = '';
     }
 
 
     async addComment(content){
        await api.createComment(this.postId, {content}).then(res=> {
-            this.updateComment();
-    }).catch(err=> console.log('err'))
+        this.updateComment();})
     }
 
     async updateComment(){

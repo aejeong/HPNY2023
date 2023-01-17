@@ -1,32 +1,31 @@
 import Common from './common.js';
 import Header from './component/header.js'
+import {  PATH } from '../constant.js';
+import { navigate} from '../routes.js';
 import api from '../api.js';
 
 export default class Home extends Common{
     constructor(){
         super();
         this.setDocsTitle('🎉 HPNY 2023');
-    }
+    } 
 
      async getData(){
-        return await api.getHomeData().then(item=> item)
-        .catch(error => {
+        return await api.getHomeData().then(item=> item).catch(err => {
+            navigate(PATH.ERROR);
         });
    }
     
-   // href="/post/${item.postId}"
     async getHtml(){
         const hasBackBtn = false;
-        const posts = await this.getData();
-
-        // ${ this.getHeaderHtml(hasBackBtn) }
+        const {posts} = await this.getData();
         return`
         ${new Header().getHeaderHtml(hasBackBtn)}
         <div class="btn-box create-btn">
-         <a class="btn-primary " href="/upload" data-link>새 글 작성하기</a>
+         <a class="btn-primary " href="/upload" data-link="/upload">새 글 작성하기</a>
         </div>
         <ul class="container">
-       ${posts.map(item => {
+       ${posts.reverse().map(item => {
         return `<li class="card-item">
         <a  
             href="/post/${item.postId}"

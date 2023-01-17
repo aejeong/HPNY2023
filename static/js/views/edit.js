@@ -1,18 +1,17 @@
 import Common from './common.js';
-import Header from './component/header.js'
+import Header from './component/header.js';
+import Modal from './component/modal.js';
 import api from '../api.js';
-import {navigateTo} from '../routes.js'
+import { MODAL_TYPE } from '../constant.js';
+import {navigate} from '../routes.js'
+
 
 export default class Edit extends Common{
     constructor(){
         super();
+
         this.setDocsTitle('edit post');
-
-        if(!history.state){
-            console.log('잘못된 접근입니다')
-           return navigateTo(null, `/`);
-        }
-
+        this.modal = new Modal();
 
         this.idList = [
             {
@@ -22,7 +21,7 @@ export default class Edit extends Common{
             },{
             element: '#editBtn',
             eventType: 'click',
-            handler : this.updatePostHandler.bind(this)
+            handler : this.validatePostHandler.bind(this)
         }]
 
         this.postId = this.getPostId();
@@ -49,8 +48,35 @@ export default class Edit extends Common{
         })
     }
 
+    validatePostHandler(){
+        if(this.post.title === ''){
+          return this.modal.openModal({
+                message: '제목을 입력해주세요.',
+                type: MODAL_TYPE.ALERT
+            }, () => {
+                document.querySelector('[data-input="title"]').focus();
+            });
+        }
+
+        if(this.post.content === ''){
+            return this.modal.openModal({
+                message: '내용을 입력해주세요.',
+                type: MODAL_TYPE.ALERT
+            }, () => {
+                document.querySelector('[data-input="content"]').focus();
+            });
+        }
+
+        this.updatePostHandler();
+    }
+
     async updatePostHandler(){
-        await api.updatePost(this.postId, this.post).then(({data}) => navigateTo(null,`/post/${data.post.postId}`));
+        await api.updatePost(this.postId, this.post).then(({post}) => navigate(`/post/${post.postId}`)).catch(err=>{
+            this.modal.openModal({
+                message: err.message,
+                type: MODAL_TYPE.ALERT
+            }, () => {})
+        });
     }
 
     async getData(){

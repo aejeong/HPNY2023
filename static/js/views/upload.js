@@ -1,12 +1,16 @@
 import Common from './common.js';
-import Header from './component/header.js'
+import Header from './component/header.js';
+import Modal from './component/modal.js';
+import { MODAL_TYPE, PATH } from '../constant.js';
 import api from '../api.js'
-import { navigateTo } from '../routes.js';
+import { navigate } from '../routes.js';
 
 export default class Upload extends Common {
     constructor(){
         super();
         this.setDocsTitle('upload post');
+
+        this.modal = new Modal();
 
         this.idList = [{
             element: '#uploadImage',
@@ -21,7 +25,7 @@ export default class Upload extends Common {
         {
             element: '#uploadBtn',
             eventType: 'click',
-            handler: this.sendUploadDatas.bind(this)
+            handler: this.validatePostHandler.bind(this)
         }
     ];
 
@@ -45,18 +49,67 @@ export default class Upload extends Common {
        }
     }
 
+    validatePostHandler(){
+        if(this.post.image === ''){
+            return this.modal.openModal({
+                 message: '랜덤 이미지를 추가해주세요.',
+                 type: MODAL_TYPE.ALERT
+             }, () => {
+                 document.querySelector('[data-input="image"]').classList.add('error')
+             })
+         }
+
+        if(this.post.title === ''){
+           return this.modal.openModal({
+                message: '제목을 입력해주세요.',
+                type: MODAL_TYPE.ALERT
+            }, () => {
+                document.querySelector('[data-input="title"]').focus();
+            })
+        }
+
+        if(this.post.content === ''){
+            return this.modal.openModal({
+                 message: '내용을 입력해주세요.',
+                 type: MODAL_TYPE.ALERT
+             }, () => {
+                 document.querySelector('[data-input="content"]').focus();
+             })
+         }
+
+         this.sendUploadDatas();
+    }
+
     async sendUploadDatas(){
-        return await api.createPost(this.post).then(res=> {
-        navigateTo(null,`/post/${res.data.postId}`);
+        return await api.createPost(this.post).then(({data: {postId}})=> {
+            this.modal.openModal({
+                message: '게시물이 성공적으로 등록되었습니다!',
+                type: MODAL_TYPE.ALERT
+            }, (modalResponse)=> {
+                if(modalResponse){
+                    navigate(`/post/${postId}`);
+                }
+            })
+      }).catch(({response: {status, data : {message}}}) => {
+        if(status === 400){
+            this.modal.openModal({
+                message,
+                type: MODAL_TYPE.ALERT
+            }, (modalResponse)=> {})
+        }else{
+            navigate(PATH.ERROR);
+        }
       })
     }
 
     async getRandomImageHandler(e){
-      await api.getImage().then(res=> {
+        if(e.target.classList.contains('error')){
+            e.target.classList.remove('error')
+        }
+      await api.getImage().then(({urls: {regular}})=> {
           e.target.textContent = '깜짝 이미지가 추가 되었습니다. 두근두근! 🥹';
-          e.target.disabled = true;
-          const randomImgSrc = res.urls.regular;
-          this.post.image = randomImgSrc
+          e.target.classList.add('disabled');
+          this.post.image = regular
       });
     }
 
