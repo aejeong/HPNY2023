@@ -1,5 +1,13 @@
 export default class Header{
-    constructor(){}
+    static instance = null;
+
+    constructor(){
+        if(Header.instance){
+            return Header.instance;
+        }
+
+        Header.instance = this;
+    }
 
  
     getHeaderHtml(btnElement){

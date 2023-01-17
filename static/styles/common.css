@@ -200,7 +200,7 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#EF566A", en
 
 .card-item .card-item-info{
     float:left;
-    padding: 34px 16px;
+    padding: 28px 16px;
     max-width: calc(100% - 180px);
     width: 100%;
 }
@@ -210,6 +210,7 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#EF566A", en
     font-weight: 700;
     font-size: 20px;
     max-width: calc(100% - 10px);
+    line-height: 1.5;
 }
 
 .card-item-info .card-item-desc{
@@ -228,13 +229,13 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#EF566A", en
     border:1px solid #E2E2E2;
     border-radius: 12px;
     width: 100%;
-    max-height: 300px;
+    height: 300px;
 }
 
 .edit-img{
     width: 100%;
     object-fit: cover;
-    max-height: inherit;
+    height: inherit;
 }
 
 .input-box{

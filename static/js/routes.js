@@ -1,15 +1,19 @@
 import {PATH} from './constant.js';
+import Edit from './views/edit.js'
 
 export const render = async () => {
     const page = pageInit();
+
     const load = await import(page.loadPath);
     const view = new load.default();
+
 
     document.getElementById('root').innerHTML = await view.getHtml();
 
     if(document.getElementById('root').children.length){
         view.setElementListener && view.setElementListener();
     }
+
 }
 
 const pageInit = () => {
@@ -53,12 +57,12 @@ const navigate = (url) => {
     render();
 }
 
-const navigateTo = (data = null,unused = null, url) => {
-    history.pushState(data,unused,url);
+const navigateTo = (data = null, url) => {
+    history.pushState(data,null,url);
 }
 
 const navigateRoute = (data = null, url) => {
-    navigateTo(data,null,url);
+    navigateTo(data,url);
     render();
 }
 

@@ -1,5 +1,4 @@
 import Common from './common.js';
-import Header from './component/header.js';
 import Modal from './component/modal.js';
 import { MODAL_TYPE, PATH } from '../constant.js';
 import api from '../api.js'
@@ -12,7 +11,7 @@ export default class Upload extends Common {
 
         this.modal = new Modal();
 
-        this.idList = [{
+        this._idList = [{
             element: '#uploadImage',
             eventType : 'click',
             handler : this.getRandomImageHandler.bind(this)
@@ -114,7 +113,7 @@ export default class Upload extends Common {
     }
 
     setElementListener(){
-        this.idList.forEach(list=>{
+        this._idList.forEach(list=>{
             document.querySelector(list.element).addEventListener(list.eventType, list.handler)
         })
     }
@@ -123,7 +122,7 @@ export default class Upload extends Common {
         const hasBackBtn = true;
 
         return `
-        ${new Header().getHeaderHtml(hasBackBtn)}
+        ${this.setHeader(hasBackBtn)}
         <div class="container" id="uploadContainer">
         <button class="btn-nutral-line" type="button" id="uploadImage" data-input="image">랜덤 이미지 추가하기</button>
             <div class="input-box">

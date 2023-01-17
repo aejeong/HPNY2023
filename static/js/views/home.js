@@ -1,6 +1,5 @@
 import Common from './common.js';
-import Header from './component/header.js'
-import {  PATH } from '../constant.js';
+import { PATH } from '../constant.js';
 import { navigate} from '../routes.js';
 import api from '../api.js';
 
@@ -20,7 +19,7 @@ export default class Home extends Common{
         const hasBackBtn = false;
         const {posts} = await this.getData();
         return`
-        ${new Header().getHeaderHtml(hasBackBtn)}
+        ${this.setHeader(hasBackBtn)}
         <div class="btn-box create-btn">
          <a class="btn-primary " href="/upload" data-link="/upload">새 글 작성하기</a>
         </div>

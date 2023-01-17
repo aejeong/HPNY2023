@@ -1,6 +1,5 @@
 import Common from './common.js';
 import { navigate } from '../routes.js';
-import Header from './component/header.js';
 import Modal from './component/modal.js';
 import api from '../api.js';
 import { MODAL_TYPE } from "../constant.js"; 
@@ -13,7 +12,8 @@ export default class Post extends Common {
         this.modal = new Modal();
 
         this.postId = this.getPostId();
-        this.idList = [{
+        
+        this._idList = [{
             element: '#commentInput',
             eventType : 'keypress',
             handler : this.commentInputHandler.bind(this)
@@ -37,7 +37,7 @@ export default class Post extends Common {
     }
 
     async getData(){
-        return await api.getCardDetailData(this.postId).then(item => item)
+        return await api.getPostDetail(this.postId).then(item => item)
     }
 
     deletePostHanlder(){
@@ -58,7 +58,7 @@ export default class Post extends Common {
     }
 
     setElementListener(){
-        this.idList.forEach(list=>{
+        this._idList.forEach(list=>{
             document.querySelector(list.element).addEventListener(list.eventType, list.handler)
         })
     }
@@ -143,7 +143,7 @@ export default class Post extends Common {
         const {post, comments} = await this.getData();
         
         return `
-        ${new Header().getHeaderHtml(hasBackBtn)}
+        ${this.setHeader(hasBackBtn)}
         <div class="container">
             <div class="post-box">
                 <div class="edit-img-box">

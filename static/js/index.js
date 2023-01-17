@@ -1,4 +1,4 @@
-import {render, navigateTo, navigateRoute} from './routes.js';
+import {render, navigateRoute} from './routes.js';
 
 const domContentLoadedHandler = () => {
     render();

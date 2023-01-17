@@ -1,5 +1,5 @@
 import { BASE, PATH } from './constant.js';
-import { navigateTo,navigate } from './routes.js';
+import { navigate } from './routes.js';
 
 const datas = {
 
@@ -13,7 +13,7 @@ const datas = {
     getHomeData: async () => {
         return await axios.get(BASE.URL + '/posts').then(({data: {data : posts}}) => posts);
     },
-    getCardDetailData: async (id) => {
+    getPostDetail: async (id) => {
         return await axios.get(BASE.URL + '/post' + id).then(({data: {data}}) => data)
         .catch((err) => {
             navigate(PATH.ERROR);

@@ -1,16 +1,22 @@
-export default class Common{
-    constructor(){}
+import Header from "./component/header.js";
 
-    setDocsTitle(title){
-        document.title = title;
-    }
+export default class Common {
+  constructor() {}
 
-    scrollDown () {
-        window.scrollTo(0,document.body.scrollHeight)
-    }
+  setHeader(btnStatus) {
+    return new Header().getHeaderHtml(btnStatus);
+  }
 
-    getPostId(){
-        const idNumReg = /\/\d+/;
-        return window.location.pathname.match(idNumReg)[0];
-    }
+  setDocsTitle(title) {
+    document.title = title;
+  }
+
+  scrollDown() {
+    window.scrollTo(0, document.body.scrollHeight);
+  }
+
+  getPostId() {
+    const idNumReg = /\/\d+/;
+    return window.location.pathname.match(idNumReg)[0];
+  }
 }
