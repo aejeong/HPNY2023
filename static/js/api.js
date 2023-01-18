@@ -29,9 +29,7 @@ const datas = {
         return await axios.delete(BASE.URL + '/post' + id).then(res => res);
     },
     createComment: async (id, content) => {
-        return await axios.post(BASE.URL + '/comment' + id, content).then(({data}) => data).catch((err) => {
-            navigate(PATH.ERROR);
-        })
+        return await axios.post(BASE.URL + '/comment' + id, content).then(({data}) => data)
     },
     deleteComment: async (id) => {
         return await axios.delete(BASE.URL + '/comment/' + id)

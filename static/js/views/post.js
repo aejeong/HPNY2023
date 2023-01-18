@@ -2,7 +2,7 @@ import Common from './common.js';
 import { navigate } from '../routes.js';
 import Modal from './component/modal.js';
 import api from '../api.js';
-import { MODAL_TYPE } from "../constant.js"; 
+import { MODAL_TYPE, PATH } from "../constant.js"; 
 
 
 export default class Post extends Common {
@@ -94,7 +94,7 @@ export default class Post extends Common {
         const { code , keyCode } = e;
 
         if(code === 'Enter' || keyCode === 13){
-         this.addComment(e.target.value);
+         this.addComment(this.cleanXSS(e.target.value));
          e.target.value = '';
         }
     }
@@ -104,14 +104,23 @@ export default class Post extends Common {
         if(commentInput.value === ''){
             return;
         }
-         this.addComment(commentInput.value);
+         this.addComment(this.cleanXSS(commentInput.value));
          commentInput.value = '';
     }
 
 
     async addComment(content){
        await api.createComment(this.postId, {content}).then(res=> {
-        this.updateComment();})
+        this.updateComment();}).catch(({response : {status, data:{ message }}}) => {
+            if(status === 400){
+                this.modal.openModal({
+                    message,
+                    type: MODAL_TYPE.ALERT
+                }, ()=>{})
+            }else{
+                navigate(PATH.ERROR);
+            }
+        })
     }
 
     async updateComment(){

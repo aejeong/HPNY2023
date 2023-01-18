@@ -31,10 +31,10 @@ export default class Edit extends Common {
 
   editContentsHandler({ target }) {
     if (target.dataset.input === "title") {
-      return (this.post.title = target.value);
+      return (this.post.title = this.cleanXSS(target.value));
     }
     if (target.dataset.input === "content") {
-      return (this.post.content = target.value);
+      return (this.post.content = this.cleanXSS(target.value));
     }
   }
 

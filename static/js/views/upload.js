@@ -38,10 +38,10 @@ export default class Upload extends Common {
     uploadContentsHandler(e){
        switch (e.target.dataset.input) {
         case 'title':
-            this.post.title = e.target.value
+            this.post.title = this.cleanXSS(e.target.value)
             break;
         case 'content': 
-            this.post.content = e.target.value
+            this.post.content = this.cleanXSS(e.target.value)
         break;
         default: this.post
             break;
