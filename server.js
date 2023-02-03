@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+require('dotenv').config();
 
 const app = express();
 
@@ -10,5 +11,5 @@ app.get("/*", (req, res) => {
 });
 
 app.listen(process.env.PORT,()=> { 
-    console.log('server is running')
+    console.log(process.env.PORT,'server is running')
 })
